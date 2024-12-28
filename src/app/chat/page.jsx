@@ -33,6 +33,12 @@ export default function chat() {
       ]);
     }, 1000);
   };
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
 
   return (
     <div className="container mx-auto mt-20 h-[500px] w-[500px] bg-white rounded">
@@ -43,31 +49,31 @@ export default function chat() {
         <CardContent>
           <div className="h-[60vh] overflow-y-auto p-4 space-y-4">
             {messages.map((msg) => (
-            <div
-              key={msg.id}
-              className={`flex ${
-                msg.sender === "user" ? "justify-end" : "justify-start"
-              }`}
-            >
               <div
-                className={`max-w-[60%] p-3 rounded-lg ${
-                  msg.sender === "user"
-                    ? "bg-blue-300 text-black"
-                    : "bg-gray-400 text-black"
+                key={msg.id}
+                className={`flex ${
+                  msg.sender === "user" ? "justify-end" : "justify-start"
                 }`}
               >
-                {msg.text}
+                <div
+                  className={`max-w-[60%] p-3 rounded-lg ${
+                    msg.sender === "user"
+                      ? "bg-blue-300 text-black"
+                      : "bg-gray-400 text-black"
+                  }`}
+                >
+                  {msg.text}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
           </div>
-          
         </CardContent>
         <CardFooter>
           <Input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="Write a message ...."
             className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
           />

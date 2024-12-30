@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Send } from "lucide-react";
 import {
   Card,
@@ -15,6 +15,7 @@ import { sendMessageToApi } from "../api-service/chat-api";
 export default function chat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const messageRef = useRef(null);
 
   const handleMessage = async () => {
     try {
@@ -35,6 +36,14 @@ export default function chat() {
       handleMessage();
     }
   };
+
+  const scrollToBottom = () => {
+    messageRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   return (
     <div className="container mx-auto mt-20 h-[700px] w-[500px] bg-white rounded">
@@ -65,6 +74,7 @@ export default function chat() {
                 </div>
               );
             })}
+            <div ref={messageRef}></div>
           </div>
         </CardContent>
         <CardFooter>
